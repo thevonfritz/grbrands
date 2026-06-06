@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PROJETO_NOME · GR Brands</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0a0808;
+      --accent:  #E8000D;
+      --heading: #ffffff;
+      --muted:   #a09090;
+      --text:    #f0e8e8;
+      --border:  rgba(255,255,255,0.07);
+    }
+    :root[data-theme="light"] {
+      --bg:      #faf7f7;
+      --heading: #180808;
+      --muted:   #7a6060;
+      --text:    #2e1e1e;
+      --border:  rgba(0,0,0,0.08);
+    }
+
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── GRID BG ── */
+    #grid-bg {
+      position: fixed; inset: -15%; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.055) 1px, transparent 1px);
+      background-size: 52px 52px;
+      transform: rotate(-9deg);
+      will-change: transform;
+    }
+    :root[data-theme="light"] #grid-bg {
+      background-image:
+        linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px);
+    }
+
+    /* ── LAYOUT ── */
+    .page {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 100vh;
+      position: relative; z-index: 1;
+    }
+
+    /* ── LEFT ── */
+    .left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 56px 64px;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 500; color: var(--muted);
+      text-decoration: none;
+      margin-bottom: 52px;
+      transition: color .2s;
+      width: fit-content;
+    }
+    .back-btn:hover { color: var(--heading); }
+    .back-btn svg { transition: transform .2s; }
+    .back-btn:hover svg { transform: translateX(-3px); }
+
+    .proj-cat {
+      font-size: 11px; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+    }
+    .proj-cat::before {
+      content: ''; width: 18px; height: 1px;
+      background: var(--accent); display: block;
+    }
+
+    .proj-title {
+      font-size: clamp(36px, 4.5vw, 64px);
+      font-weight: 800; letter-spacing: -.04em;
+      color: var(--heading); line-height: 1.05;
+      margin-bottom: 24px;
+    }
+
+    .proj-desc {
+      font-size: 16px; color: var(--muted);
+      line-height: 1.75; max-width: 440px;
+      margin-bottom: 32px;
+    }
+
+    .proj-tags {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 44px;
+    }
+    .proj-tag {
+      font-size: 12px; padding: 5px 14px; border-radius: 100px;
+      border: 1px solid var(--border); color: var(--muted);
+      background: transparent;
+    }
+
+    .proj-link {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 13px; font-weight: 600;
+      color: var(--accent); text-decoration: none;
+      transition: gap .2s;
+    }
+    .proj-link:hover { gap: 14px; }
+
+    /* ── RIGHT ── */
+    .right {
+      position: relative; overflow: hidden;
+    }
+    .right-bg {
+      position: absolute; inset: 0;
+      /* set per-project */
+    }
+    .right-glow {
+      position: absolute; inset: 0; pointer-events: none;
+      /* set per-project */
+    }
+    .right-initials {
+      position: absolute; bottom: -20px; right: 20px;
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(120px, 18vw, 200px);
+      font-weight: 800; letter-spacing: -.06em;
+      line-height: 1; user-select: none; pointer-events: none;
+      /* color set per-project */
+    }
+    .right-img {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      padding: 48px;
+    }
+    .right-img img {
+      max-width: 100%; max-height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 24px 48px rgba(0,0,0,0.40));
+    }
+
+    /* ── THEME TOGGLE ── */
+    .theme-toggle {
+      position: fixed; top: 20px; right: 24px; z-index: 100;
+      background: rgba(255,255,255,.06); border: 1px solid var(--border);
+      border-radius: 8px; padding: 8px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); transition: color .2s; backdrop-filter: blur(12px);
+    }
+    .theme-toggle:hover { color: var(--heading); }
+    .theme-toggle svg { width: 15px; height: 15px; display: block; }
+    [data-theme="dark"]  .icon-moon { display: none; }
+    [data-theme="light"] .icon-sun  { display: none; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      html, body { overflow: auto; }
+      .page { grid-template-columns: 1fr; height: auto; }
+      .left { padding: 40px 28px; border-right: none; border-bottom: 1px solid var(--border); }
+      .right { height: 55vw; min-height: 260px; }
+      .proj-title { font-size: clamp(30px, 8vw, 48px); }
+      .back-btn { margin-bottom: 36px; }
+    }
+  </style>
+</head>
+<body>
+<div id="grid-bg" aria-hidden="true"></div>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+  <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+  <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>
+
+<div class="page">
+  <div class="left">
+    <a href="../index.html" class="back-btn">
+      <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Voltar
+    </a>
+
+    <div class="proj-cat">CATEGORIA</div>
+    <h1 class="proj-title">Nome do Projeto</h1>
+    <p class="proj-desc">Descrição do projeto aqui.</p>
+
+    <div class="proj-tags">
+      <span class="proj-tag">Tag 1</span>
+      <span class="proj-tag">Tag 2</span>
+    </div>
+
+    <a href="URL_PORTFOLIO" target="_blank" rel="noopener" class="proj-link">
+      Ver no portfólio
+      <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </a>
+  </div>
+
+  <div class="right">
+    <div class="right-bg"></div>
+    <div class="right-glow"></div>
+    <div class="right-initials">XX</div>
+    <div class="right-img">
+      <!-- <img src="../img/projetos/NOME.jpg" alt="Nome do Projeto"/> -->
+    </div>
+  </div>
+</div>
+
+<script>
+  const html  = document.documentElement;
+  const saved = localStorage.getItem('gr-theme') || 'dark';
+  html.setAttribute('data-theme', saved);
+  document.documentElement.style.colorScheme = saved;
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    document.documentElement.style.colorScheme = next;
+    localStorage.setItem('gr-theme', next);
+  });
+  // Grid parallax
+  const g = document.getElementById('grid-bg');
+  let tx=0,ty=0,cx=0,cy=0;
+  document.addEventListener('mousemove', e => {
+    tx = (e.clientX/window.innerWidth  - .5)*22;
+    ty = (e.clientY/window.innerHeight - .5)*18;
+  });
+  (function loop(){ cx+=(tx-cx)*.04; cy+=(ty-cy)*.04; g.style.transform=`rotate(-9deg) translate(${cx}px,${cy}px)`; requestAnimationFrame(loop); })();
+</script>
+</body>
+</html>
